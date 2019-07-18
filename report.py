@@ -2,44 +2,53 @@ from fpdf import FPDF
 import os
 
 img_path = 'img/miro.jpg'
+plot_vertical_path = 'img/plot.png'
+plot_horizontal_path = 'img/plot.png'
 file_name = "test.pdf"
 header_size = 24
+plot_y = 80
+plot_x = 50
 
-def setFooter():
-    pdf.set_y(250)
-    pdf.set_font('Arial', 'I', 8)
-    pdf.cell(0,10, 'Page %s' % pdf.page_no(), 0, 0, 'C')
+class PDF(FPDF):
+    def header(self):
+        # Logo
+        self.image(img_path, x = 130, y = -10, w = 70, h = 70, type = 'JPG', link = '')
+
+    # Page footer
+    def footer(self):
+        # Position at 1.5 cm from bottom
+        self.set_y(-15)
+        # Arial italic 8
+        self.set_font('Arial', 'I', 8)
+        # Page number
+        self.cell(0, 10, 'Page ' + str(self.page_no()) + '/{nb}', 0, 0, 'C')
+
 
 if __name__=="__main__":
-    pdf = FPDF()
+    pdf = PDF()
+    pdf.alias_nb_pages()
 
     # PAGE 1
     pdf.add_page()
     
-
     # HEADER
     pdf.set_font('Arial', 'B', header_size)
-    pdf.cell(20, 10, 'Antenna TEST')
+    pdf.ln(40)
+    pdf.cell(20, 10, 'Antenna VERTICAL')
 
-    # LOGO
-    pdf.image(img_path, x = 130, y = -10, w = 70, h = 70, type = 'JPG', link = '')
+    # PLOT VERTICAL
+    pdf.image(plot_vertical_path, x = plot_x, y = plot_y, w = 100, h = 100, type = 'PNG', link = '')
 
-    # PAGE NUMBER
-    setFooter()
-
-    # PAGE 2
+    # # PAGE 2
     pdf.add_page()
 
-    # HEADER
+    # # HEADER
     pdf.set_font('Arial', 'B', header_size)
-    pdf.cell(20, 10, 'Title', 1, 1, 'C')
+    pdf.ln(40)
+    pdf.cell(20, 10, 'Antenna HORIZONTAL')
 
-    # LOGO
-    pdf.image(img_path, x = 130, y = -10, w = 70, h = 70, type = 'JPG', link = '')
-
-    # PAGE NUMBER
-    setFooter()
-
+    # PLOT HORIZONTAL
+    pdf.image(plot_horizontal_path, x = plot_x, y = plot_y, w = 100, h = 100, type = 'PNG', link = '')
 
     # GENERATE FILE
     if os.path.exists(file_name):
