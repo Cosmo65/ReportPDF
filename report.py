@@ -2,12 +2,13 @@ from fpdf import FPDF
 import os
 
 img_path = 'img/miro.jpg'
-plot_vertical_path = 'img/plot.png'
-plot_horizontal_path = 'img/plot.png'
+plot_vertical_path = 'img/antenna_1.png'
+plot_horizontal_path = 'img/antenna_1.png'
 file_name = "test.pdf"
 header_size = 24
 plot_y = 80
-plot_x = 50
+plot_x = 40
+plot_size = 130
 
 class PDF(FPDF):
     def header(self):
@@ -37,7 +38,7 @@ if __name__=="__main__":
     pdf.cell(20, 10, 'Antenna VERTICAL')
 
     # PLOT VERTICAL
-    pdf.image(plot_vertical_path, x = plot_x, y = plot_y, w = 100, h = 100, type = 'PNG', link = '')
+    pdf.image(plot_vertical_path, x = plot_x, y = plot_y, w = plot_size, h = plot_size, type = 'PNG', link = '')
 
     # # PAGE 2
     pdf.add_page()
@@ -48,7 +49,7 @@ if __name__=="__main__":
     pdf.cell(20, 10, 'Antenna HORIZONTAL')
 
     # PLOT HORIZONTAL
-    pdf.image(plot_horizontal_path, x = plot_x, y = plot_y, w = 100, h = 100, type = 'PNG', link = '')
+    pdf.image(plot_horizontal_path, x = plot_x, y = plot_y, w = plot_size, h = plot_size, type = 'PNG', link = '')
 
     # GENERATE FILE
     if os.path.exists(file_name):
